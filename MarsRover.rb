@@ -2,7 +2,7 @@ class Platform
 # needs to be able to determine where each point is. 2D array? How to link 
 # across the inner arrays? look up how to manipulate these.
 # 
-    attr_reader :x_max, :y_max, :x_min, :y_mins
+    attr_reader :x_max, :y_max, :x_min, :y_min
 
     def initialize(x,y)
         @x_max = x
@@ -17,15 +17,6 @@ class Platform
 end
 
 ## how big am i? what's on the platform?
-
-
-
-### if L or R, mars.rotate! if M, mars.index_plus_one
-## output: give index of location. ### how to account for gridBL=0 but arrayTL=0?
-# need? separate grid for coordinates card = [NESW] for R, card.reverse for L
-# if we're doing card.reverse for L, do we also need to do input.reverse to
-# figure out what space it is moving it? or can we have RM mean input+1 and
-# LM mean input-1? 
 
 
 
@@ -60,13 +51,24 @@ class Rover
 
   def move
     case @direction
-    when "N" && @y + 1 <= @platform.y_max then @y += 1
-    when "S" && @y - 1 >= @platform.y_min then @y -= 1             
-    when "E" && @x + 1 <= @platform.x_max then @x += 1
-    when "W" && @x - 1 >= @platform.x_min then @x -= 1
-    else puts "This move will cause the rover walk off the platform. Please select another move."
+    when "N" then @y += 1
+    when "S" then @y -= 1
+    when "E" then @x += 1
+    when "W" then @x -= 1
+    else puts "This move will cause the rover walk off the platform."
     end
   end
+
+  # def move
+  #   case @direction
+  #   when "N" && (@y + 1) <= @platform.y_max then @y += 1
+  #   when "S" && (@y - 1) >= @platform.y_min then @y -= 1             
+  #   when "E" && (@x + 1) <= @platform.x_max then @x += 1
+  #   when "W" && (@x - 1) >= @platform.x_min then @x -= 1
+  #   else puts "This move will cause the rover walk off the platform."
+  #   end
+  # end
+  ################## can't quite get this to work
 
   def to_s
     "#{@x} #{@y} #{@direction}"
@@ -76,15 +78,40 @@ end
 ###################
 puts "What are the platform maximum coordinates?"
 plat_1 = gets.chomp.split
-platform_1 = Platform.new(plat_1[0], plat_1[1]) 
+platform_1 = Platform.new(plat_1[0].to_i, plat_1[1].to_i) 
 
-puts "What are the rover's coordinates?"
+puts "What are the first rover's coordinates?"
 rov_1 = gets.chomp.split
-rover_1 = Rover.new(rov_1[0], rov_1[1], rov_1[2], platform_1)
+rover_1 = Rover.new(rov_1[0].to_i, rov_1[1].to_i, rov_1[2], platform_1)
 
-puts "How would you like the rover to move?"
-rov_1_mov = gets.chomp.upcase.split(//)
-rov_1_mov.each {|a| puts a }
+puts "How would you like the first rover to move?"
+rov_1_mov = gets.chomp.split(//)
+
+puts "What are the second rover's coordinates?"
+rov_2 = gets.chomp.split
+rover_2 = Rover.new(rov_2[0].to_i, rov_2[1].to_i, rov_2[2], platform_1)
+
+puts "How would you like the second rover to move?"
+rov_2_mov = gets.chomp.split(//)
+
+rov_1_mov.each do |mov|
+  case mov
+  when "L" then rover_1.left
+  when "R" then rover_1.right
+  when "M" then rover_1.move
+  end
+end
+
+rov_2_mov.each do |mov|
+  case mov
+  when "L" then rover_2.left
+  when "R" then rover_2.right
+  when "M" then rover_2.move
+  end
+end
+
+puts rover_1.to_s
+puts rover_2.to_s
 
 ###################
 # platform_1 = Platform.new(5, 5)
