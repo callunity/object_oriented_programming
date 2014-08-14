@@ -5,7 +5,7 @@ class Person
 		@name = name
 	end
 
-	def greeting(name)
+	def greeting
 		puts "Hi, my name is #{@name}"
 	end
 end
@@ -22,3 +22,9 @@ class Instructor < Person
 	end
 end
 
+
+chris = Instructor.new("Chris")
+chris.greeting
+
+cristina = Student.new("Christina")
+cristina.greeting
