@@ -28,3 +28,11 @@ chris.greeting
 
 cristina = Student.new("Christina")
 cristina.greeting
+
+chris.teach
+cristina.learn
+cristina.teach
+# Student and Instructor both inherit properties from Person, but they do not 
+# have access to each other's unique methods. As much as Cristina wants to teach,
+# she does not have access to that method while she is still a Student.
+
